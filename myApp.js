@@ -10,9 +10,20 @@ async function connectDB() {
   }
 }
 
+const personSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  age: {
+    type: Number
+  },
+  favoriteFoods: {
+    type: [String]
+  }
+});
 
-
-let Person;
+let Person = mongoose.model("Person", personSchema);
 
 const createAndSavePerson = (done) => {
   done(null /*, data*/);
