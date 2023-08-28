@@ -1,4 +1,15 @@
 require('dotenv').config();
+const mongoose = require("mongoose");
+
+async function connectDB() {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log("connected to database successfully..")
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
 
 
 let Person;
@@ -50,7 +61,7 @@ const queryChain = (done) => {
 
   done(null /*, data*/);
 };
-
+connectDB();
 /** **Well Done !!**
 /* You completed these challenges, let's go celebrate !
  */
