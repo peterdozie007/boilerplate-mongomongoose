@@ -1,14 +1,19 @@
 require('dotenv').config();
 const mongoose = require("mongoose");
 
+
+
+
 async function connectDB() {
   try {
-    await mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    t = await mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log(t.models);
     console.log("connected to database successfully..")
   } catch (error) {
     console.log(error.message)
   }
 }
+connectDB();
 
 const personSchema = new mongoose.Schema({
   name: {
@@ -23,10 +28,18 @@ const personSchema = new mongoose.Schema({
   }
 });
 
+
 let Person = mongoose.model("Person", personSchema);
 
-const createAndSavePerson = (done) => {
-  done(null /*, data*/);
+const createAndSavePerson = async (done) => {
+ //done(null /*, data*/);
+  const john = new Person({ name: "John", age: 10, favoriteFoods: ["Mango", "Rice"] });
+  john.save(function (err, data) {
+    if (err) {
+      return done(err)
+    }
+    return done(null, data);
+  });
 };
 
 const createManyPeople = (arrayOfPeople, done) => {
@@ -72,7 +85,7 @@ const queryChain = (done) => {
 
   done(null /*, data*/);
 };
-connectDB();
+
 /** **Well Done !!**
 /* You completed these challenges, let's go celebrate !
  */
